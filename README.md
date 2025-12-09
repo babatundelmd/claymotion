@@ -62,7 +62,6 @@ selectedYear.update(year => year + 1);
 Derived state that automatically updates when dependencies change.
 
 ```typescript
-// Automatically recalculates when selectedYear() changes
 eraHue = computed(() => {
   const year = this.selectedYear();
   if (year < 1950) return 35;  // Sepia/warm
@@ -71,7 +70,7 @@ eraHue = computed(() => {
   return 45; // Modern gold
 });
 
-// Computed from another signal
+
 awardColors = computed(() => ({
   primary: AWARD_METADATA[this.selectedAward()].primaryColor,
   secondary: AWARD_METADATA[this.selectedAward()].secondaryColor
@@ -88,16 +87,14 @@ The Resource API provides a declarative way to handle async data fetching with b
 import { resource } from '@angular/core';
 
 awardsResource = resource({
-  // Reactive params - triggers reload when signals change
   params: () => ({
     year: this.selectedYear(),
     type: this.selectedAward()
   }),
-  // Async loader function
+
   loader: ({ params }) => this.service.fetchAwardData(params.year, params.type)
 });
 
-// Template usage
 @if (awardsResource.isLoading()) {
   <app-loading-spinner />
 }
@@ -120,15 +117,12 @@ Modern input API using signals for reactive component inputs.
 ```typescript
 import { input } from '@angular/core';
 
-// Required inputs
 title = input.required<string>();
 year = input.required<number>();
 awardType = input.required<AwardType>();
 
-// Optional input with default
 message = input('Default message');
 
-// Template usage (call as function)
 <h1>{{ title() }}</h1>
 <span>{{ year() }}</span>
 ```
@@ -142,14 +136,10 @@ Modern output API for component events.
 ```typescript
 import { output } from '@angular/core';
 
-// Define output
 yearChange = output<number>();
 awardChange = output<AwardType>();
 
-// Emit events
 this.yearChange.emit(2024);
-
-// Parent template
 <app-year-slider 
   [year]="selectedYear()" 
   (yearChange)="onYearChange($event)" />
@@ -162,7 +152,7 @@ this.yearChange.emit(2024);
 Angular's new built-in control flow replaces *ngIf and *ngFor with better performance and readability.
 
 ```typescript
-// Conditional rendering with @if
+
 @if (isLoading()) {
   <app-loading-spinner />
 } @else if (error()) {
@@ -321,24 +311,20 @@ export class GeminiAwardsService {
   private cache = new Map<string, AwardData>();
 
   async fetchAwardData(year: number, type: AwardType): Promise<AwardData> {
-    // 1. Check cache first (Signal-friendly caching)
     const cacheKey = `${type}-${year}`;
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!;
     }
 
-    // 2. Build dynamic prompt based on award type
     const meta = AWARD_METADATA[type];
     const prompt = `...`;
 
-    // 3. Call Gemini API
     const response = await this.ai.models.generateContent({
       model: 'gemini-2.0-flash',
       contents: prompt,
       config: { temperature: 0.3 }
     });
 
-    // 4. Parse and cache response
     const data = JSON.parse(response?.text || '');
     this.cache.set(cacheKey, data);
     
@@ -352,15 +338,11 @@ export class GeminiAwardsService {
 The app uses a simple but effective state management pattern:
 
 ```typescript
-// 1. Source signals (user interactions)
 selectedYear = signal(2024);
 selectedAward = signal<AwardType>('Oscars');
-
-// 2. Derived signals (computed from source)
 eraHue = computed(() => /* derives from selectedYear */);
 awardColors = computed(() => /* derives from selectedAward */);
 
-// 3. Async resource (derives from multiple signals)
 awardsResource = resource({
   params: () => ({ year: this.selectedYear(), type: this.selectedAward() }),
   loader: ({ params }) => this.service.fetchAwardData(params.year, params.type)
@@ -376,17 +358,14 @@ tilt(e: MouseEvent) {
   const card = e.currentTarget as HTMLElement;
   const box = card.getBoundingClientRect();
   
-  // Calculate mouse position relative to card center
   const x = e.clientX - box.left;
   const y = e.clientY - box.top;
   const centerX = box.width / 2;
   const centerY = box.height / 2;
   
-  // Convert to rotation degrees
   const rotateX = -(y - centerY) / 20;
   const rotateY = (x - centerX) / 20;
   
-  // Update signal (triggers re-render)
   this.transform.set(`rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`);
 }
 ```
