@@ -1,0 +1,74 @@
+  <div class="year-slider-container" [style.--era-hue]="eraHue()">
+      
+      <!-- Era Indicator -->
+      <div class="era-label">{{ eraName() }}</div>
+      
+      <!-- Main Controls -->
+      <div class="controls">
+        <button 
+          class="nav-btn prev"
+          (click)="decrementYear()"
+          [disabled]="year() <= minYear()"
+          aria-label="Previous year">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        
+        <div class="year-display">
+          <span class="year-number" [class.changing]="isChanging()">
+            {{ year() }}
+          </span>
+          <div class="year-underline"></div>
+        </div>
+        
+        <button 
+          class="nav-btn next"
+          (click)="incrementYear()"
+          [disabled]="year() >= maxYear()"
+          aria-label="Next year">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Timeline Track -->
+      <div class="timeline">
+        <div class="track">
+          <div 
+            class="progress" 
+            [style.width.%]="progressPercent()">
+          </div>
+          <div 
+            class="thumb"
+            [style.left.%]="progressPercent()">
+          </div>
+        </div>
+        
+        <!-- Decade Markers -->
+        <div class="markers">
+          @for (decade of decadeMarkers(); track decade) {
+            <div 
+              class="marker"
+              [class.active]="year() >= decade"
+              [style.left.%]="getMarkerPosition(decade)">
+              <span class="marker-label">{{ decade }}</span>
+            </div>
+          }
+        </div>
+      </div>
+      
+      <!-- Quick Jump Buttons -->
+      <div class="quick-jumps">
+        @for (decade of quickJumpDecades(); track decade) {
+          <button 
+            class="jump-btn"
+            [class.active]="isInDecade(decade)"
+            (click)="jumpToDecade(decade)">
+            {{ decade }}s
+          </button>
+        }
+      </div>
+      
+    </div>

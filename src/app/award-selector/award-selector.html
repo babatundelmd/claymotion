@@ -1,0 +1,29 @@
+ <nav class="award-nav" role="tablist" aria-label="Award ceremonies">
+      
+      <div class="scroll-container" #scrollContainer>
+        <div class="awards-track">
+          @for (type of awardTypes(); track type) {
+            <button 
+              class="award-btn"
+              [class.active]="selectedAward() === type"
+              [style.--award-color]="getAwardColor(type)"
+              (click)="selectAward(type)"
+              role="tab"
+              [attr.aria-selected]="selectedAward() === type"
+              [attr.aria-controls]="'panel-' + type.toLowerCase().replace(' ', '-')">
+              
+              <span class="award-icon">{{ getAwardIcon(type) }}</span>
+              <span class="award-name">{{ type }}</span>
+              
+              @if (selectedAward() === type) {
+                <div class="active-indicator"></div>
+              }
+            </button>
+          }
+        </div>
+      </div>
+      
+      <div class="fade fade-left"></div>
+      <div class="fade fade-right"></div>
+      
+    </nav>

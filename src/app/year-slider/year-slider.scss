@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+    
+    :host {
+      display: block;
+      width: 100%;
+    }
+    
+    .year-slider-container {
+      padding: 20px 30px;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Era Label */
+    .era-label {
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: hsl(var(--era-hue, 45), 70%, 60%);
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+    
+    /* Main Controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .nav-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .nav-btn:hover:not(:disabled) {
+      border-color: hsl(var(--era-hue, 45), 70%, 60%);
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.1);
+    }
+    
+    .nav-btn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+    
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    .nav-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+    
+    /* Year Display */
+    .year-display {
+      text-align: center;
+      position: relative;
+    }
+    
+    .year-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 4rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+      display: block;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      text-shadow: 0 0 40px hsl(var(--era-hue, 45), 70%, 50%, 0.5);
+    }
+    
+    .year-number.changing {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    
+    .year-underline {
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        hsl(var(--era-hue, 45), 70%, 60%) 50%,
+        transparent 100%
+      );
+      margin-top: 8px;
+      border-radius: 2px;
+    }
+    
+    /* Timeline Track */
+    .timeline {
+      position: relative;
+      margin-bottom: 20px;
+      padding: 0 10px;
+    }
+    
+    .track {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      position: relative;
+      overflow: visible;
+    }
+    
+    .progress {
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        hsl(var(--era-hue, 45), 70%, 40%) 0%,
+        hsl(var(--era-hue, 45), 70%, 60%) 100%
+      );
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    
+    .thumb {
+      position: absolute;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      background: hsl(var(--era-hue, 45), 70%, 60%);
+      border: 3px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: left 0.3s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 20px hsl(var(--era-hue, 45), 70%, 50%, 0.5);
+    }
+    
+    /* Decade Markers */
+    .markers {
+      position: relative;
+      height: 30px;
+      margin-top: 10px;
+    }
+    
+    .marker {
+      position: absolute;
+      transform: translateX(-50%);
+    }
+    
+    .marker::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      margin: 0 auto 4px;
+    }
+    
+    .marker.active::before {
+      background: hsl(var(--era-hue, 45), 70%, 60%);
+    }
+    
+    .marker-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.4);
+      transition: color 0.3s ease;
+    }
+    
+    .marker.active .marker-label {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Quick Jump Buttons */
+    .quick-jumps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .jump-btn {
+      padding: 6px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .jump-btn:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .jump-btn.active {
+      border-color: hsl(var(--era-hue, 45), 70%, 60%);
+      color: hsl(var(--era-hue, 45), 70%, 60%);
+      background: hsl(var(--era-hue, 45), 70%, 60%, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .year-number {
+        font-size: 3rem;
+      }
+      
+      .controls {
+        gap: 20px;
+      }
+      
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .markers {
+        display: none;
+      }
+    }

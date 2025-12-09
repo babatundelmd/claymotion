@@ -1,0 +1,31 @@
+ <div class="loading-container" [style.--accent]="accentColor()">
+      
+      <!-- Oscar Statue Animation -->
+      <div class="trophy-animation">
+        <div class="trophy">
+          <div class="trophy-top">🏆</div>
+          <div class="sparkles">
+            @for (i of [1,2,3,4,5,6,7,8]; track i) {
+              <div class="sparkle" [style.--index]="i"></div>
+            }
+          </div>
+        </div>
+        <div class="shadow"></div>
+      </div>
+      
+      <!-- Loading Text -->
+      <div class="loading-text">
+        <span class="text-primary">{{ message() }}</span>
+        <span class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </span>
+      </div>
+      
+      <!-- Subtitle -->
+      <p class="loading-subtitle">
+        Consulting the Academy archives
+      </p>
+      
+    </div>

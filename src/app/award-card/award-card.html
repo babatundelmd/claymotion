@@ -1,0 +1,50 @@
+<div 
+      class="scene" 
+      (mousemove)="tilt($event)" 
+      (mouseleave)="reset()"
+      (touchmove)="tiltTouch($event)"
+      (touchend)="reset()">
+      
+      <div class="card" [style.transform]="transform()">
+        <div class="holographic-bg"></div>
+        
+        <div class="art-layer">
+          @if (src()) {
+            <img 
+              [src]="src()" 
+              [alt]="title() + ' figurine'" 
+              (load)="onImageLoad()"
+              (error)="onImageError()"
+              [class.loaded]="imageLoaded()" />
+          } @else {
+            <div class="no-image-placeholder">
+              <span class="placeholder-icon">{{ awardMeta().icon }}</span>
+            </div>
+          }
+        </div>
+        
+        <div class="particles">
+          @for (i of [1,2,3,4,5,6]; track i) {
+            <div class="particle" [style.--delay]="i * 0.5 + 's'"></div>
+          }
+        </div>
+        
+        <div class="info-layer">
+          <div class="category-tag">{{ awardMeta().topCategory }}</div>
+          <h1 class="title">{{ title() }}</h1>
+          <p class="creative">
+            <span class="creative-label">{{ creativeLabel() }}</span>
+            {{ creative() }}
+          </p>
+          
+          <div class="badge" [style.--badge-color]="awardMeta().primaryColor">
+            <span class="badge-icon">{{ awardMeta().icon }}</span>
+            <span class="badge-text">{{ awardType() | uppercase }} WINNER {{ year() }}</span>
+          </div>
+        </div>
+
+        <div class="sheen" [style.--sheen-x]="sheenPosition().x" [style.--sheen-y]="sheenPosition().y"></div>
+        
+        <div class="edge-glow" [style.--glow-color]="awardMeta().primaryColor"></div>
+      </div>
+    </div>

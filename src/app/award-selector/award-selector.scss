@@ -1,0 +1,213 @@
+ @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+    
+    :host {
+      display: block;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .award-nav {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 100%
+      );
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .scroll-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      padding: 16px 40px;
+    }
+    
+    .scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .awards-track {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      min-width: max-content;
+    }
+    
+    /* Award Button */
+    .award-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+    
+    .award-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      background: linear-gradient(
+        135deg,
+        var(--award-color, #d4af37) 0%,
+        transparent 100%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .award-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .award-btn:hover:not(.active)::before {
+      opacity: 0.15;
+    }
+    
+    .award-btn.active {
+      background: var(--award-color, #d4af37);
+      border-color: var(--award-color, #d4af37);
+      transform: scale(1.05);
+      box-shadow: 
+        0 8px 25px color-mix(in srgb, var(--award-color, #d4af37) 40%, transparent),
+        0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+    
+    .award-btn:active {
+      transform: scale(0.98);
+    }
+    
+    /* Icon */
+    .award-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+    
+    .award-btn:hover .award-icon {
+      transform: scale(1.2) rotate(-10deg);
+    }
+    
+    .award-btn.active .award-icon {
+      transform: scale(1.1);
+    }
+    
+    /* Name */
+    .award-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+    
+    .award-btn.active .award-name {
+      color: #000;
+      font-weight: 700;
+    }
+    
+    /* Active Indicator (subtle pulse) */
+    .active-indicator {
+      position: absolute;
+      inset: -2px;
+      border-radius: 100px;
+      border: 2px solid var(--award-color, #d4af37);
+      opacity: 0.5;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.2;
+      }
+    }
+    
+    /* Gradient Fades */
+    .fade {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    
+    .fade-left {
+      left: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.9) 0%,
+        transparent 100%
+      );
+    }
+    
+    .fade-right {
+      right: 0;
+      background: linear-gradient(
+        -90deg,
+        rgba(0, 0, 0, 0.9) 0%,
+        transparent 100%
+      );
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .scroll-container {
+        padding: 12px 30px;
+      }
+      
+      .awards-track {
+        justify-content: flex-start;
+      }
+      
+      .award-btn {
+        padding: 10px 16px;
+        gap: 8px;
+      }
+      
+      .award-icon {
+        font-size: 1.1rem;
+      }
+      
+      .award-name {
+        font-size: 0.8rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .award-btn {
+        padding: 10px 14px;
+      }
+      
+      .award-name {
+        display: none;
+      }
+      
+      .award-icon {
+        font-size: 1.4rem;
+      }
+    }

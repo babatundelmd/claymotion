@@ -1,0 +1,60 @@
+ <div class="nominees-container" [style.--accent-color]="accentColor()">
+      
+      <!-- Envelope Header (Clickable) -->
+      <button 
+        class="envelope-header"
+        (click)="toggleOpen()"
+        [class.open]="isOpen()"
+        [attr.aria-expanded]="isOpen()">
+        
+        <div class="envelope-front">
+          <div class="seal">
+            <span class="seal-icon">{{ awardIcon() }}</span>
+          </div>
+          <span class="envelope-label">
+            {{ isOpen() ? 'Hide' : 'Reveal' }} Nominees
+          </span>
+          <svg 
+            class="chevron" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        
+      </button>
+      
+      <!-- Nominees Content -->
+      <div class="nominees-content" [class.open]="isOpen()">
+        <div class="nominees-inner">
+          
+          <h3 class="section-title">
+            {{ awardType() }} {{ year() }} Nominees
+          </h3>
+          
+          <ul class="nominees-list">
+            @for (nominee of nominees(); track nominee.title; let i = $index) {
+              <li 
+                class="nominee-item"
+                [style.--delay]="(i * 0.08) + 's'"
+                [class.revealed]="isOpen()">
+                <span class="nominee-bullet">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="4"/>
+                  </svg>
+                </span>
+                <span class="nominee-title">{{ nominee.title }}</span>
+              </li>
+            }
+          </ul>
+          
+          <div class="nominee-count">
+            {{ nominees().length }} nominees total
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
